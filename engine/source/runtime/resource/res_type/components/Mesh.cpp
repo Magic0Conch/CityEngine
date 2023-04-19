@@ -12,6 +12,7 @@ namespace EasyEngine{
     Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices,vector<Texture_Info> texture_infos):vertices(vertices),indices(indices),texture_infos(texture_infos){}
 
     void Mesh::draw(Shader &shader){
+
         unsigned int diffuseNr = 1;
         unsigned int specularNr = 1;
         for(unsigned int i = 0; i < textures.size(); i++)
@@ -37,7 +38,6 @@ namespace EasyEngine{
         glBindVertexArray(0);
     }
 
-    //TODO
     void Mesh::setupMesh(vector<Texture> textures){
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);

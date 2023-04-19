@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "GLFW/glfw3.h"
 #include "runtime/Engine.h"
 #include "runtime/core/base/macro.h"
 #include "runtime/function/render/lighting/DiffuseLighting.h"
@@ -72,8 +73,10 @@ namespace EasyEngine {
         //render
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
         tickRender();
-        cout<<drawcall<<endl;
+
+        // cout<<drawcall<<endl;
         glfwSwapBuffers(EngineWindow::getInstance().window);
     }
 
