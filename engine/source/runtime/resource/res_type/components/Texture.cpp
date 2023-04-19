@@ -3,6 +3,7 @@
 #include <string>
 
 namespace EasyEngine {
+    Texture_Info::Texture_Info(string type_name,vector<string> texture_paths):type_name(type_name),texture_paths(texture_paths){}
 
     void Texture::getTextureFormat(const int components,GLenum &outFormatInternal,GLenum &outFormatSource,const TextureInternalFormat targetFormat,const bool bgr){
         switch (components) {

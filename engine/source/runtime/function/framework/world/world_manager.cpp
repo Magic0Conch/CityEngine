@@ -37,11 +37,14 @@ bool WorldManager::loadWorld(const std::string& world_url){
     auto paths = PathUtility::getAllPathWithExt(world_url, ".obj");
     
     for (auto path:paths) {
-        loadModel(path);
-        // threads.emplace_back(std::thread(WorldManager::getInstance().loadModel,path));
+        // loadModel(path);
+        threads.emplace_back(std::thread(WorldManager::getInstance().loadModel,path));
     }
     for (auto& thread : threads) {
-        // thread.join();
+        thread.join();
+    }
+    for (auto entity : entity_list) {
+        entity->model->setupModel();
     }
     // shared_ptr<Entity> entity_ptr = make_shared<Entity>("E:\\Files\\Work\\Project\\CityEngine\\build\\bin\\asset\\data\\backpack\\backpack.obj");
     return true;

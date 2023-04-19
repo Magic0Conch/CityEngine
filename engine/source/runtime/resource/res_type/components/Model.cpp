@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "runtime/core/base/macro.h"
 #include "runtime/platform/path_utility/PathUtility.h"
+#include "runtime/resource/res_type/components/Model.h"
 #include <assimp/Importer.hpp>
 #include <assimp/material.h>
 #include <assimp/mesh.h>
@@ -43,7 +44,7 @@ namespace EasyEngine{
         }
 
         void Model::processNode(aiNode *node,const aiScene *scene){
-            cout<<loadedCount++<<"/"<<scene->mNumMeshes<<endl;
+            // cout<<loadedCount++<<"/"<<scene->mNumMeshes<<endl;
             for (unsigned int i = 0; i<node->mNumMeshes; ++i) {
                 aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
                 meshes.emplace_back(processMesh(mesh,scene));
@@ -85,40 +86,56 @@ namespace EasyEngine{
             }
             if (mesh->mMaterialIndex >=0) {
                 aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-                vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-                textures.insert(textures.end(),diffuseMaps.begin(),diffuseMaps.end());
-                vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-                textures.insert(textures.end(), specularMaps.begin(),specularMaps.end());
+                auto diffuseTexturePaths = loadMaterialTexturesPaths(material, aiTextureType_DIFFUSE);
+                texture_infos.emplace_back(Texture_Info("texture_diffuse",diffuseTexturePaths));
+                // textures.insert(textures.end(),diffuseMaps.begin(),diffuseMaps.end());
+                auto specularTexturePaths = loadMaterialTexturesPaths(material, aiTextureType_SPECULAR);
+                texture_infos.emplace_back(Texture_Info("texture_specular",specularTexturePaths));
+                // textures.insert(textures.end(), specularMaps.begin(),specularMaps.end());
             }
-            return Mesh(vertices,indices,textures);
+            return Mesh(vertices,indices,texture_infos);
         }
-        vector<Texture> Model::loadMaterialTextures(aiMaterial *mat,aiTextureType type,string typeName){
-            vector<Texture> textures;
+       vector<string> Model::loadMaterialTexturesPaths(aiMaterial *mat,aiTextureType type){
+            vector<string> paths;
+            // vector<Texture> textures;
             for (unsigned int i = 0; i<mat->GetTextureCount(type); ++i) {
                 aiString str;
                 mat->GetTexture(type, i, &str);
-                bool skip = false;
-                for(const Texture& tex:textures_loaded){
-                    if (strcmp(tex.path.data(),str.C_Str())==0) {
-                        textures.emplace_back(tex);
-                        skip = true;
-                        break;
+                paths.emplace_back(PathUtility::getFullPath(directory, str.C_Str()));
+            }
+            return paths;
+
+        }
+
+        void Model::setupModel(){
+            for (auto& mesh : meshes) {
+                vector<Texture> textures;
+                for (auto& info : mesh.texture_infos) {
+                    for (auto& path:info.texture_paths) {
+                        bool skip = false;
+                        for(const Texture& tex:textures_loaded){
+                            if (strcmp(tex.path.data(),path.c_str())==0) {
+                                textures.emplace_back(tex);
+                                skip = true;
+                                break;
+                            }
+                        }
+                        if (skip) {
+                            continue;
+                        }
+                        Texture texture(path,GL_TEXTURE_2D,DEFAULT,true);
+                        texture.type = info.type_name;
+                        texture.path = path;
+                        textures.emplace_back(texture);
+                        textures_loaded.emplace_back(texture);                    
                     }
                 }
-                if (skip) {
-                    continue;
-                }
-                Texture texture(PathUtility::getFullPath(directory, str.C_Str()),GL_TEXTURE_2D,DEFAULT,true);
-                texture.type = typeName;
-                texture.path = str.C_Str();
-                textures.emplace_back(texture);
-                textures_loaded.emplace_back(texture);
+                mesh.setupMesh(textures);
             }
-            return textures;
         }
 
         Model::Model(const string& path){
-            std::cout<<"load model from"<<path<<endl;
+            std::cout<<"load model from "<<path<<endl;
             loadModel(path);
             loadedCount = 0;
         }

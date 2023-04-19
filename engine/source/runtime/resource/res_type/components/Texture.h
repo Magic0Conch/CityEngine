@@ -6,6 +6,15 @@
 #include <vector>
 
 namespace EasyEngine{
+
+class Texture_Info{
+public:
+    string type_name;
+    vector<string> texture_paths;
+public:
+    Texture_Info(string,vector<string>);
+};
+
 enum TextureInternalFormat{
     DEFAULT, GAMMACORRECTION, HDR
 };

@@ -2,18 +2,14 @@
 #include "runtime/include/WindowTime.h"
 #include "runtime/resource/res_type/components/Mesh.h"
 #include <iostream>
+#include <string>
 
 namespace EasyEngine{
     using namespace std;
 
     extern int drawcall;
 
-    Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices,vector<Texture> textures){
-        this->vertices = vertices;
-        this->indices = indices;
-        this->textures = textures;
-        setupMesh();
-    }
+    Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices,vector<Texture_Info> texture_infos):vertices(vertices),indices(indices),texture_infos(texture_infos){}
 
     void Mesh::draw(Shader &shader){
         unsigned int diffuseNr = 1;
@@ -42,7 +38,7 @@ namespace EasyEngine{
     }
 
     //TODO
-    void Mesh::setupMesh(){
+    void Mesh::setupMesh(vector<Texture> textures){
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -50,6 +46,8 @@ namespace EasyEngine{
         cout<<"VAO:"<<VAO<<endl;
         cout<<"VBO:"<<VBO<<endl;
         cout<<"EBO:"<<EBO<<endl;
+
+        this->textures = textures;
 
 
         glBindVertexArray(VAO);
