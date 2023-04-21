@@ -17,12 +17,12 @@ using namespace EasyEngine;
 
 namespace EasyEngine {
     int drawcall;
-    auto getAllPathWithExt(const std::string&, const std::string&);
-    Engine::Engine():worldManager(WorldManager::getInstance()){
+
+    Engine::Engine(){
         printf("Binary Root: %s\n", BINARY_ROOT_DIR);
         const std::string configPath = PU::getFullPath(BINARY_ROOT_DIR, "configs\\global_config.ini");
         g_global_context.initializeContext(configPath);	
-        cameraController = make_shared<CameraController>(*camera);
+        // cameraController = make_shared<CameraController>(*camera);
     }
 
 
@@ -38,6 +38,7 @@ namespace EasyEngine {
         LogInfo("Engine initialize success!");
         glEnable(GL_DEPTH_TEST);
         // glEnable(GL_CULL_FACE);
+        m_render_system = make_shared<RenderSystem>();
 
         //Main render loop
         while (!glfwWindowShouldClose(EngineWindow::getInstance().window) && !InputHandler::getInstance().closeWindow) {		
@@ -47,33 +48,21 @@ namespace EasyEngine {
     }
 
     void Engine::initialize(){
-        
-        worldManager.initialize();
-        LogInfo("load all models!\n");
-        renderPasses.emplace_back(make_shared<PreProcessingPass>());
-        // renderPasses.emplace_back(make_shared<PhongLightingRenderPass>("lighting/phong"));
-        renderPasses.emplace_back(make_shared<DiffuseLighting>(worldManager.entity_list));
-
-        for (const shared_ptr<RenderPass> rp : renderPasses) {
-            rp->initialize();
-        }    
+        m_render_system->initialize(); 
     }
 
     void Engine::mainLoop() {
-        //Time
+        //Time（应该放在逻辑里）
         WindowTime::updateTimeValue();
         drawcall = 0;
         calculateFPS(WindowTime::deltaTimeValue);
         LogInfo("FPS:"+to_string(m_fps)+"\n");
         
-        //Events
+        //Events 也放在逻辑里
         glfwPollEvents();
         InputHandler::getInstance().handleInput(EngineWindow::getInstance().window);
-        cameraController->processInput();
-        //render
-        glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 
+        //render
         tickRender();
 
         // cout<<drawcall<<endl;
@@ -81,15 +70,7 @@ namespace EasyEngine {
     }
 
     void Engine::tickRender() {
-        
-
-        projection = camera->getProjectionMatrix();
-        view = camera->getCameraPoseMatrix();
-        // colorsRenderPass->draw(camera);
-        for (const shared_ptr<RenderPass> rp : renderPasses) {
-            rp->draw(*camera);
-        }    
-        // phongLightingRenderPass->draw(camera);
+        m_render_system->tick();
     }
 
     void Engine::calculateFPS(float delta_time){
@@ -106,8 +87,7 @@ namespace EasyEngine {
 
 }
 int main(int argc,char** argv) {
-    EasyEngine::Engine engine;
-    EasyEngine::PathUtility::getAllPathWithExt("C:\\Data\\snow3\\Productions\\Production_2\\Data",".obj");
+    EasyEngine::Engine engine;    
     engine.start();
     return 0;
 }

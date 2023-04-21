@@ -8,8 +8,7 @@
 #include "include/CameraController.h"
 #include "include/JsonManipulation.h"
 #include "function/global/global_context.h"
-#include "function/render/lighting/ColorsRenderPass.h"
-#include "function/render/lighting/PhongLightingRenderPass.h"
+#include "function/render/render_system.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -27,14 +26,15 @@ namespace EasyEngine {
 	using namespace std;
     class Engine{
     private:
-        shared_ptr<Camera> camera = make_shared<Camera>();
-        shared_ptr<CameraController> cameraController;   
-        vector<shared_ptr<RenderPass>> renderPasses;
-        WorldManager& worldManager;
+        // shared_ptr<Camera> camera = make_shared<Camera>();
+        // shared_ptr<CameraController> cameraController;   
+        // vector<shared_ptr<RenderPass>> renderPasses;
+        // WorldManager& worldManager;
 
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 projection;
+        // glm::mat4 view = glm::mat4(1.0f);
+        // glm::mat4 projection;
         std::string binaryRootDir;
+        shared_ptr<RenderSystem> m_render_system;
     public:
         Engine();       
         void getEnviromentInfomation();

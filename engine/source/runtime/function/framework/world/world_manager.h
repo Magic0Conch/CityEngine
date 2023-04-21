@@ -19,7 +19,6 @@ namespace EasyEngine {
         virtual ~WorldManager();
         void initialize();
         void clear();
-        void tick();
         static WorldManager& getInstance();
         
     private:

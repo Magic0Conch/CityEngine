@@ -3,6 +3,7 @@
 #include "runtime/core/base/macro.h"
 #include <glad/glad.h>
 #include <iostream>
+#include <ostream>
 #include <string>
 
 #if defined (_WIN32)
@@ -51,7 +52,7 @@ inline PlatformNames getPlatformName_(){
 }
 
 inline void LogInfo(std::string msg){
-    std::cout<<msg;
+    std::cout<<msg<<std::endl;
 }
 
 #define glCheckError() glCheckError_(__FILE__, __LINE__)

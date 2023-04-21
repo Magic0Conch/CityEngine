@@ -23,9 +23,7 @@ void WorldManager::initialize(){
 void WorldManager::clear(){
 
 }
-void WorldManager::tick(){
 
-}
 
 bool WorldManager::loadModel(const std::string& path){
     shared_ptr<Entity> entity_ptr = make_shared<Entity>(path);

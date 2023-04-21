@@ -14,7 +14,7 @@ namespace EasyEngine {
 		glm::vec3 cameraPosition;
 		//yaw pitch roll
 		glm::vec3 cameraEulerRotation;
-		float fov,nearPlane=0.1f,farPlane=100.0f;
+		float fov,nearPlane=0.1f,farPlane=1000.0f;
 		CameraType cameraType;
 		//cameraDirection is actually the reverse direction in the reverse direction of what it is targeting.
 		glm::vec3 cameraFront;
