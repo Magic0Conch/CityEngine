@@ -34,11 +34,11 @@ namespace EasyEngine {
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             cout << "GLAD initializaion failed!" << endl;
         }    
+        m_render_system = make_shared<RenderSystem>();
         initialize();
         LogInfo("Engine initialize success!");
         glEnable(GL_DEPTH_TEST);
         // glEnable(GL_CULL_FACE);
-        m_render_system = make_shared<RenderSystem>();
 
         //Main render loop
         while (!glfwWindowShouldClose(EngineWindow::getInstance().window) && !InputHandler::getInstance().closeWindow) {		

@@ -1,3 +1,4 @@
+#pragma once
 #include "runtime/function/render/lighting/DiffuseLighting.h"
 #include <memory>
 namespace EasyEngine {

@@ -14,7 +14,7 @@ namespace EasyEngine {
         public:
             std::shared_ptr<RenderPipeline> m_render_pipeline;
             std::shared_ptr<Camera> m_render_camera;
-            shared_ptr<CameraController> m_camera_controller;   
+            std::shared_ptr<CameraController> m_camera_controller;   
             //getGuidOfPickedMesh getGObjectIDByMeshID
             unsigned int uboMatrices;
     };

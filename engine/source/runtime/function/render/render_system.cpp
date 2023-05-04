@@ -2,18 +2,21 @@
 #include "glm/fwd.hpp"
 #include "runtime/core/base/macro.h"
 #include "runtime/function/framework/world/world_manager.h"
+#include "runtime/function/render/render_system.h"
 #include "runtime/include/CameraController.h"
 #include <memory>
 
 namespace EasyEngine {
+
 
     void RenderSystem::initialize(){
         WorldManager::getInstance().initialize();
         LogInfo("load all models!");
 
         // setup render camera
+        m_render_camera = std::make_shared<Camera>(CameraType::PERSPECTIVE);
+        LogInfo("render_camera setup success!");
         m_render_camera->setCameraPosition(glm::vec3(0,0,3));
-        m_render_camera = std::make_shared<Camera>();
         m_render_camera->farPlane = 1000.f;
 
         m_camera_controller = make_shared<CameraController>(*m_render_camera);

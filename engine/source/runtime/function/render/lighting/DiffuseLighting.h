@@ -19,7 +19,7 @@ namespace EasyEngine {
         float ambientStrength;
         vector<shared_ptr<Entity>> entites;
     public:
-        DiffuseLighting()=delete;
+        DiffuseLighting() = delete;
         DiffuseLighting(const vector<shared_ptr<Entity>>&);
         virtual void draw(Camera& camera);
         virtual void initialize();

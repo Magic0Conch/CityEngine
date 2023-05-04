@@ -4,7 +4,7 @@
 #include <iostream>
 namespace EasyEngine {
 
-Camera::Camera(const CameraType& cameraType):cameraType(cameraType) {
+Camera::Camera(const CameraType cameraType):cameraType(cameraType) {
 	cameraPosition = glm::vec3(.0f, .0f, 3.0f);
 	cameraFront = glm::vec3(0.0, 0.0, -1.0);
 	cameraUp = glm::vec3(0.0, 1.0, 0.0);
@@ -71,7 +71,7 @@ const glm::mat4 Camera::getCameraPoseMatrix() {
 
 
 const glm::mat4 Camera::getProjectionMatrix() {
-	if (cameraType==PERSPECTIVE) {
+	if (cameraType==CameraType::PERSPECTIVE) {
 		return projectionMatrix = glm::perspective(glm::radians(fov), aspect,nearPlane, farPlane);
 	}
 	else{

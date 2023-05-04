@@ -4,7 +4,7 @@
 #include "glm/fwd.hpp"
 #include "runtime/include/EngineWindow.h"
 namespace EasyEngine {
-	enum CameraType{
+	enum class CameraType{
 		PERSPECTIVE,ORTHOGONAL
 	};
 
@@ -27,10 +27,11 @@ namespace EasyEngine {
 		glm::mat4 cameraPoseMatrix;
 		glm::mat4 projectionMatrix;
 	public:
-		Camera(const CameraType& cameraType = PERSPECTIVE);
+		Camera(const CameraType cameraType);
 		Camera(const glm::vec3& initialPose, const glm::vec3& initialDirection = glm::vec3(0));
 		virtual ~Camera();
 		Camera& operator=(const Camera&);
+		Camera() = delete;
 
 		void setCameraDirectionByTarget(const glm::vec3 targetPosition);
 		void setCameraPosition(const glm::vec3 cameraPosition);

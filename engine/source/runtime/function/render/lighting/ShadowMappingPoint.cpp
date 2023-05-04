@@ -53,7 +53,7 @@ void ShadowMappingPoint::initialize(){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
     //light pos fixed, no need to be updated every frame.
-    lightCamera = make_shared<Camera>();
+    lightCamera = make_shared<Camera>(CameraType::PERSPECTIVE);
     lightCamera->nearPlane = 1.0f;
     lightCamera->farPlane = 25.0f;
     lightCamera->fov = 90.0;
