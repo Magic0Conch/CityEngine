@@ -9,7 +9,7 @@
 #include "runtime/resource/res_type/components/Model.h"
 #include "../../global/global_context.h"
 #include "../RenderPass.h"
-#include "runtime/function/framework/Entity/entity.h"
+#include "runtime/function/framework/entity/entity.h"
 
 
 namespace EasyEngine {

@@ -1,0 +1,6 @@
+namespace EasyEngine {
+    struct WindowsSettings{
+
+    };
+
+}

@@ -2,7 +2,7 @@
 #include "runtime/platform/path_utility/PathUtility.h"
 #include <memory>
 #include <string>
-#include <runtime/function/framework/Entity/entity.h>
+#include <runtime/function/framework/entity/entity.h>
 #include <vector>
 #include "../../global/global_context.h"
 
