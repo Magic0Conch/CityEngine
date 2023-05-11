@@ -34,7 +34,7 @@ namespace EasyEngine {
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
             cout << "GLAD initializaion failed!" << endl;
         }    
-        m_render_system = make_shared<RenderSystem>();
+        m_renderSystem = make_shared<RenderSystem>();
         initialize();
         LogInfo("Engine initialize success!");
         glEnable(GL_DEPTH_TEST);
@@ -48,7 +48,7 @@ namespace EasyEngine {
     }
 
     void Engine::initialize(){
-        m_render_system->initialize(); 
+        m_renderSystem->initialize(); 
     }
 
     void Engine::mainLoop() {
@@ -70,7 +70,7 @@ namespace EasyEngine {
     }
 
     void Engine::tickRender() {
-        m_render_system->tick();
+        m_renderSystem->tick();
     }
 
     void Engine::calculateFPS(float delta_time){

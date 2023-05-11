@@ -1,8 +1,7 @@
 #include "Clock.h"
-#include "tool/time/Clock.h"
 #include <chrono>
 
-using namespace EasyEngine;
+using namespace EasyEngine::Tool;
 void Clock::update(){
     __lastTime = __currentTime;
     __currentTime = std::chrono::steady_clock::now();

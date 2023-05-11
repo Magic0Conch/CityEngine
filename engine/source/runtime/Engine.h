@@ -14,6 +14,7 @@
 #include <string>
 #include <runtime/core/base/macro.h>
 #include "platform/path_utility/PathUtility.h"
+#include "runtime/function/render/window/Window.h"
 
 #ifdef BINARY_ROOT_DIR
 // #define BINARY_ROOT_DIR_C BINARY_ROOT_DIR
@@ -23,7 +24,6 @@ using PU = EasyEngine::PathUtility;
 class RenderPass;
 namespace EasyEngine {
 
-	using namespace std;
     class Engine{
     private:
         // shared_ptr<Camera> camera = make_shared<Camera>();
@@ -34,7 +34,8 @@ namespace EasyEngine {
         // glm::mat4 view = glm::mat4(1.0f);
         // glm::mat4 projection;
         std::string binaryRootDir;
-        shared_ptr<RenderSystem> m_render_system;
+        std::shared_ptr<Window> m_mainWindow;
+        std::shared_ptr<RenderSystem> m_renderSystem;
     public:
         Engine();       
         void getEnviromentInfomation();

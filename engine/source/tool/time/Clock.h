@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <chrono>
-namespace EasyEngine 
+namespace EasyEngine::Tool
 {
 	class Clock
 	{
